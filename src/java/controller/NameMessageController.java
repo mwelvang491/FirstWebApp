@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.NameMessageService;
 
 /**
  *
@@ -36,9 +37,13 @@ public class NameMessageController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
       
         String nameEntered = request.getParameter("userName");
-        String msg = "Hello " + nameEntered + "welcome to Java Web Development";
-        request.setAttribute("nameMsg", msg);
         
+        NameMessageService nms = new NameMessageService();
+        String msg = nms.produceMessage(nameEntered);
+    
+        request.setAttribute("nameMsg", msg);
+        //nameMsg is a key
+        // msg is a value
         
         RequestDispatcher view = request.getRequestDispatcher("/response.jsp");
         
@@ -85,5 +90,11 @@ public class NameMessageController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    @Override
+    public void init()
+        throws ServletException{
+        
+    }
 
 }
